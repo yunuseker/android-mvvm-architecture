@@ -4,27 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.yunusseker.mvvmarchitecture.ui.main.MainViewModel"/>
+            type="com.yunusseker.mvvmarchitecture.ui.main.MainViewModel" />
+
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.yunusseker.mvvmarchitecture.ui.main.MainActivity">
 
-       <android.support.v7.widget.RecyclerView
-           android:id="@+id/rec_view"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-       </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
 
 
-    </android.support.constraint.ConstraintLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </layout>

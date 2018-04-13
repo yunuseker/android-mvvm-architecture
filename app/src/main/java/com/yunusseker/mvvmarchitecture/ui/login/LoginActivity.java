@@ -43,9 +43,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel, ActLoginBinding>
                 loginViewModel.login(dataBinding.editText.getText().toString(),dataBinding.editText2.getText().toString())
                 .observe(this,loginResponse -> {
                    if(loginResponse.getSuccess().equals("Success")){
-                       Toast.makeText(this,"Login Success",Toast.LENGTH_LONG).show();
-
-                       startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                       startActivityWithoutBackstack(MainActivity.class);
                    }
                 })
         );

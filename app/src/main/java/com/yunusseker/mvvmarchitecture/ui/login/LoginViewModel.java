@@ -18,8 +18,6 @@ public class LoginViewModel extends BaseViewModel {
         super(remoteDataSource, localDataSource);
     }
 
-
-
     public LiveData<LoginResponse> login(String username,String password){
         return getRemoteDataSource().login(username,password);
     }

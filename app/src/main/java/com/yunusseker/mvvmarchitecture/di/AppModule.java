@@ -2,8 +2,10 @@ package com.yunusseker.mvvmarchitecture.di;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 
+import com.google.gson.Gson;
 import com.yunusseker.mvvmarchitecture.BuildConfig;
 import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
 import com.yunusseker.mvvmarchitecture.data.local.LocalDataSourceImp;
@@ -41,8 +43,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LocalDataSource localDataSource(Context context) {
-        return new LocalDataSourceImp(context);
+    LocalDataSource localDataSource(SharedPreferences sharedPreferences,Gson gson) {
+        return new LocalDataSourceImp(sharedPreferences,gson);
     }
 
     @Provides
@@ -77,7 +79,7 @@ public class AppModule {
     @Singleton
     Api provideRetrofit(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("your_base_url")
+                .baseUrl("http://ozsaraylilarinsaat.com/wired/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
@@ -85,4 +87,16 @@ public class AppModule {
 
         return retrofit.create(Api.class);
     }
+    @Provides
+    @Singleton
+    Gson providesGson(){
+        return new Gson();
+    }
+
+    @Provides
+    @Singleton
+    SharedPreferences providesSharedPreferences(Context context){
+        return context.getSharedPreferences("com.yunusseker.mvvm",Context.MODE_PRIVATE);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.yunusseker.mvvmarchitecture.base;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -56,5 +57,16 @@ public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewData
     @Override
     public Lifecycle getLifecycle() {
         return lifecycleRegistry;
+    }
+
+    public void startActivityWithoutBackstack(Class activityClass){
+        Intent i = new Intent(this, activityClass);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+    }
+
+    public void startActivityWithBackstack(Class activityClass){
+        Intent i = new Intent(this, activityClass);
+        startActivity(i);
     }
 }

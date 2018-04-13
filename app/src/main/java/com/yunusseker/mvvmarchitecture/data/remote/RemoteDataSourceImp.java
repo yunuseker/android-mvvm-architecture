@@ -42,7 +42,9 @@ public class RemoteDataSourceImp implements RemoteDataSource {
     @Override
     public LiveData<LoginResponse> login(String username, String password) {
         final MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
+
         loginMutableLiveData.setValue(new LoginResponse("Success"));
+
         return loginMutableLiveData;
     }
 }

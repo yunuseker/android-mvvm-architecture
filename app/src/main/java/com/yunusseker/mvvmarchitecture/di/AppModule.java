@@ -12,6 +12,7 @@ import com.yunusseker.mvvmarchitecture.data.local.LocalDataSourceImp;
 import com.yunusseker.mvvmarchitecture.data.remote.Api;
 import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
 import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSourceImp;
+import com.yunusseker.mvvmarchitecture.utils.ErrorUtil;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -77,16 +78,23 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Api provideRetrofit(OkHttpClient okHttpClient) {
-        Retrofit retrofit = new Retrofit.Builder()
+    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
                 .baseUrl("http://ozsaraylilarinsaat.com/wired/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
 
+
+    }
+
+    @Provides
+    @Singleton
+    Api provideApi(Retrofit retrofit) {
         return retrofit.create(Api.class);
     }
+
     @Provides
     @Singleton
     Gson providesGson(){
@@ -97,6 +105,12 @@ public class AppModule {
     @Singleton
     SharedPreferences providesSharedPreferences(Context context){
         return context.getSharedPreferences("com.yunusseker.mvvm",Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    ErrorUtil provideErrorUtil(Retrofit retrofit){
+        return new ErrorUtil(retrofit);
     }
 
 }

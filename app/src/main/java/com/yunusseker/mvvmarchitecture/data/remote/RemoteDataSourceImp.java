@@ -2,12 +2,15 @@ package com.yunusseker.mvvmarchitecture.data.remote;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
 import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -26,25 +29,15 @@ public class RemoteDataSourceImp implements RemoteDataSource {
 
 
     @Override
-    public LiveData<PostResponse> getPostModel() {
-        final MutableLiveData<PostResponse> postResponseMutableLiveData = new MutableLiveData<>();
-
-        api.getPosts()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(postResponseMutableLiveData::setValue, throwable -> {
-                });
-
-
-        return postResponseMutableLiveData;
+    public Single<PostResponse> getPostModel() {
+        return api.getPosts();
     }
 
+
     @Override
-    public LiveData<LoginResponse> login(String username, String password) {
-        final MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
-
-        loginMutableLiveData.setValue(new LoginResponse("Success"));
-
-        return loginMutableLiveData;
+    public Single<LoginResponse> login(String username, String password) {
+        //TODO get result from api
+        LoginResponse loginResponse=new LoginResponse(true,"Success");
+        return Single.just(loginResponse);
     }
 }

@@ -9,22 +9,32 @@ import android.widget.Toast;
 import com.yunusseker.mvvmarchitecture.BR;
 import com.yunusseker.mvvmarchitecture.R;
 import com.yunusseker.mvvmarchitecture.base.BaseActivity;
+import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
 import com.yunusseker.mvvmarchitecture.data.model.PostModel;
 import com.yunusseker.mvvmarchitecture.databinding.ActivityMainBinding;
 import com.yunusseker.mvvmarchitecture.ui.main.adapter.MainArticleRecyclerAdapter;
+import com.yunusseker.mvvmarchitecture.utils.ErrorUtil;
 
 import javax.inject.Inject;
 
-public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {
+import io.reactivex.disposables.CompositeDisposable;
+
+public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {
 
 
     @Inject
-    MainViewModel mainViewModel;
+    ErrorUtil errorUtil;
 
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
     }
+
+    @Override
+    public Class<MainViewModel> getViewModel() {
+        return MainViewModel.class;
+    }
+
 
     @Override
     public int getLayoutRes() {
@@ -34,12 +44,14 @@ public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBindin
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBinding.setVariable(getBindingVariable(), mainViewModel);
 
-        mainViewModel.getLiveData().observe(this, postResponse -> {
+
+        viewModel.getLiveData().observe(this, postResponse -> {
             dataBinding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             dataBinding.recView.setAdapter(new MainArticleRecyclerAdapter(postResponse.getPosts(), this));
         });
+
+        viewModel.getError().observe(this,throwable -> errorUtil.openErrorToast(throwable,MainActivity.this,true));
 
     }
 
@@ -47,4 +59,5 @@ public class MainActivity extends BaseActivity<MainViewModel, ActivityMainBindin
     public void click(PostModel postModel) {
         Toast.makeText(this, postModel.getCategory(), Toast.LENGTH_LONG).show();
     }
+
 }

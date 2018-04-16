@@ -3,21 +3,27 @@ package com.yunusseker.mvvmarchitecture.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.yunusseker.mvvmarchitecture.BR;
 import com.yunusseker.mvvmarchitecture.R;
 import com.yunusseker.mvvmarchitecture.base.BaseActivity;
+import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
 import com.yunusseker.mvvmarchitecture.databinding.ActLoginBinding;
 import com.yunusseker.mvvmarchitecture.ui.main.MainActivity;
+import com.yunusseker.mvvmarchitecture.ui.main.adapter.MainArticleRecyclerAdapter;
 
 import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by yunus.seker on 12.4.2018
  */
 
-public class LoginActivity extends BaseActivity<LoginViewModel, ActLoginBinding> {
+public class LoginActivity extends BaseActivity<LoginViewModel,ActLoginBinding> {
 
     @Inject
     LoginViewModel loginViewModel;
@@ -26,6 +32,12 @@ public class LoginActivity extends BaseActivity<LoginViewModel, ActLoginBinding>
     public int getBindingVariable() {
         return BR.vmLogin;
     }
+
+    @Override
+    public Class<LoginViewModel> getViewModel() {
+        return LoginViewModel.class;
+    }
+
 
     @Override
     public int getLayoutRes() {
@@ -39,15 +51,10 @@ public class LoginActivity extends BaseActivity<LoginViewModel, ActLoginBinding>
 
 
 
-        dataBinding.button.setOnClickListener(v ->
-                loginViewModel.login(dataBinding.editText.getText().toString(),dataBinding.editText2.getText().toString())
-                .observe(this,loginResponse -> {
-                   if(loginResponse.getSuccess().equals("Success")){
-                       startActivityWithoutBackstack(MainActivity.class);
-                   }
-                })
-        );
-    }
+        dataBinding.button.setOnClickListener(v -> {
+            startActivityWithoutBackstack(MainActivity.class);
 
+        });
+    }
 
 }

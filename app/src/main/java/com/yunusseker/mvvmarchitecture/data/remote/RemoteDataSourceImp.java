@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
+import com.yunusseker.mvvmarchitecture.data.model.ErrorModel;
 import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
 import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
 
@@ -37,7 +38,7 @@ public class RemoteDataSourceImp implements RemoteDataSource {
     @Override
     public Single<LoginResponse> login(String username, String password) {
         //TODO get result from api
-        LoginResponse loginResponse=new LoginResponse(true,"Success");
+        LoginResponse loginResponse=new LoginResponse(false,"Success",new ErrorModel("","Login Error"));
         return Single.just(loginResponse);
     }
 }

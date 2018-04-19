@@ -12,6 +12,8 @@ import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -21,27 +23,39 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class LoginViewModel extends BaseViewModel {
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private final MutableLiveData<Throwable> networkConnectError = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
-
+    @Inject
     public LoginViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
         super(remoteDataSource, localDataSource);
     }
 
-    public LiveData<LoginResponse> login(String username,String password){
+    public LiveData<LoginResponse> login(String username, String password) {
         final MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
 
-        getCompositeDisposable().add(getRemoteDataSource().login(username,password)
+        getCompositeDisposable().add(getRemoteDataSource().login(username, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(loginResponse -> {
-                    if(loginResponse.isStatus()){
-
+                    if (loginResponse.isStatus()) {
+                        loginMutableLiveData.setValue(loginResponse);
+                    }else {
+                        //this message comes from api.
+                        errorMessage.setValue(loginResponse.getErrorModel().getErrorMessage());
                     }
-
-                }, error::setValue));
+                }, networkConnectError::setValue));
 
         return loginMutableLiveData;
     }
+
+    LiveData<Throwable> getNetworkConnectError() {
+        return networkConnectError;
+    }
+
+    LiveData<String> getErrorMessage(){
+        return errorMessage;
+    }
+
 
 }

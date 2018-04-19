@@ -21,25 +21,19 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {
 
+    @Inject
+    MainViewModel mainViewModel;
 
     @Inject
     ErrorUtil errorUtil;
 
     @Override
-    public int getBindingVariable() {
-        return BR.viewModel;
-    }
-
-    @Override
-    public Class<MainViewModel> getViewModel() {
-        return MainViewModel.class;
-    }
-
-
-    @Override
     public int getLayoutRes() {
         return R.layout.activity_main;
     }
+
+    @Override
+    public Class<MainViewModel> getViewModel() {return MainViewModel.class;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

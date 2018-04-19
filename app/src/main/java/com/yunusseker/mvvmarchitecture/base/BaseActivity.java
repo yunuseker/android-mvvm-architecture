@@ -3,6 +3,9 @@ package com.yunusseker.mvvmarchitecture.base;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -12,41 +15,45 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.yunusseker.mvvmarchitecture.utils.ViewModelFactory;
+
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by yunus.seker on 12.4.2018
  */
 
-public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewDataBinding> extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleOwner {
+public abstract class BaseActivity<VM extends ViewModel,DB extends ViewDataBinding> extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleOwner {
 
    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentAndroidInjector;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     public DB dataBinding;
 
     public VM viewModel;
 
-
-    public abstract int getBindingVariable();
-
     @LayoutRes
     public abstract int getLayoutRes();
+
+    public abstract Class<VM> getViewModel();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, getLayoutRes());
-        dataBinding.setVariable(getBindingVariable(), viewModel);
-        dataBinding.executePendingBindings();
+        viewModel=ViewModelProviders.of(this,viewModelFactory).get(getViewModel());
     }
 
     @Override
@@ -69,4 +76,6 @@ public abstract class BaseActivity<VM extends BaseViewModel, DB extends ViewData
         Intent i = new Intent(this, activityClass);
         startActivity(i);
     }
+
+
 }

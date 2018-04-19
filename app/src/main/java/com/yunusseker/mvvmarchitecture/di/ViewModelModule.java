@@ -1,27 +1,35 @@
 package com.yunusseker.mvvmarchitecture.di;
 
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+
+import com.yunusseker.mvvmarchitecture.utils.ViewModelFactory;
 import com.yunusseker.mvvmarchitecture.ui.login.LoginViewModel;
 import com.yunusseker.mvvmarchitecture.ui.main.MainViewModel;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
+import dagger.multibindings.IntoMap;
 
 /**
  * Created by yunus.seker on 12.4.2018
  */
 
 @Module
-public class ViewModelModule {
+public abstract class ViewModelModule {
 
-    @Provides
-    MainViewModel provideMainViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource){
-        return new MainViewModel(remoteDataSource,localDataSource);
-    }
 
-    @Provides
-    LoginViewModel provideLoginViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource){
-        return new LoginViewModel(remoteDataSource,localDataSource);
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel.class)
+    abstract ViewModel bindsMovieListViewModel(MainViewModel mainViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel.class)
+    abstract  ViewModel bindsMovieDetailViewModel(LoginViewModel loginViewModel);
+
+    @Binds
+    abstract ViewModelProvider.Factory bindsViewModelFactory(ViewModelFactory viewModelFactory);
+
 }

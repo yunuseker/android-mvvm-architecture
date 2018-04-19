@@ -1,6 +1,8 @@
 package com.yunusseker.mvvmarchitecture.di;
 
 import android.app.Application;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -31,10 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by yunus.seker on 12.4.2018
  */
 
-@Module
+@Module(includes = ViewModelModule.class)
 public class AppModule {
-
-
 
     @Provides
     @Singleton
@@ -80,7 +80,7 @@ public class AppModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl("http://ozsaraylilarinsaat.com/wired/")
+                .baseUrl("your api url")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

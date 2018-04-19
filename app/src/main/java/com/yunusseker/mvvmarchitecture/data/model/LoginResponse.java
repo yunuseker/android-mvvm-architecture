@@ -15,9 +15,10 @@ public class LoginResponse {
 
     private ErrorModel errorModel;
 
-    public LoginResponse(boolean status, String token) {
+    public LoginResponse(boolean status, String token, ErrorModel errorModel) {
         this.status = status;
         this.token = token;
+        this.errorModel = errorModel;
     }
 
     public boolean isStatus() {

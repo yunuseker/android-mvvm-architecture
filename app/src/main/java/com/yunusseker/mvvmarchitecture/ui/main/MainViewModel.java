@@ -12,6 +12,8 @@ import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -24,6 +26,7 @@ public class MainViewModel extends BaseViewModel {
 
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
 
+    @Inject
     public MainViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
         super(remoteDataSource, localDataSource);
     }

@@ -10,6 +10,14 @@ public class ErrorModel {
 
     private String errorMessage;
 
+    public ErrorModel() {
+    }
+
+    public ErrorModel(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

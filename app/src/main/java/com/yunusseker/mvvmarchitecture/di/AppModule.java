@@ -1,19 +1,17 @@
 package com.yunusseker.mvvmarchitecture.di;
 
 import android.app.Application;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.google.gson.Gson;
 import com.yunusseker.mvvmarchitecture.BuildConfig;
+import com.yunusseker.mvvmarchitecture.data.DataRepository;
+import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSourceImp;
 import com.yunusseker.mvvmarchitecture.data.remote.Api;
 import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSourceImp;
 import com.yunusseker.mvvmarchitecture.utils.ErrorUtil;
 
 import java.util.Locale;
@@ -44,15 +42,26 @@ public class AppModule {
 
     @Provides
     @Singleton
-    LocalDataSource localDataSource(SharedPreferences sharedPreferences,Gson gson) {
-        return new LocalDataSourceImp(sharedPreferences,gson);
+    @LocalSouce
+    DataSource localDataSource(SharedPreferences sharedPreferences,Gson gson) {
+        return new LocalDataSource(sharedPreferences,gson);
     }
 
     @Provides
     @Singleton
-    RemoteDataSource remoteDataSource(Api api){
-        return new RemoteDataSourceImp(api);
+    @RemoteSource
+    DataSource remoteDataSource(Api api){
+        return new RemoteDataSource(api);
     }
+
+
+    @Provides
+    @Singleton
+    DataSource dataRepository(@LocalSouce DataSource localDataSource, @RemoteSource DataSource remoteDataSource){
+        return new DataRepository(localDataSource,remoteDataSource);
+    }
+
+
 
     @Provides
     @Singleton
@@ -80,7 +89,7 @@ public class AppModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl("your api url")
+                .baseUrl("YOUR_BASE_URL")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

@@ -1,14 +1,58 @@
 package com.yunusseker.mvvmarchitecture.data.local;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+import com.yunusseker.mvvmarchitecture.R;
+import com.yunusseker.mvvmarchitecture.data.DataSource;
+import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
+import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
 import com.yunusseker.mvvmarchitecture.data.model.UserModel;
+
+import javax.inject.Inject;
+
+import io.reactivex.Single;
 
 /**
  * Created by yunus.seker on 12.4.2018
  */
 
-public interface LocalDataSource {
+public class LocalDataSource implements DataSource {
 
-    UserModel getLoggedUser();
+    private static final String USER = "user";
+    private static final String PROFILE = "profile";
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
 
-    void saveLoggedUser(UserModel userModel);
+
+    @Inject
+    public LocalDataSource(SharedPreferences sharedPreferences, Gson gson) {
+        this.sharedPreferences=sharedPreferences;
+        this.gson =gson;
+    }
+
+    @Override
+    public Single<PostResponse> getPostModel() {
+        return null;
+    }
+
+    @Override
+    public Single<LoginResponse> login(String username, String password) {
+        return null;
+    }
+
+    @Override
+    public UserModel getLoggedUser() {
+        if (sharedPreferences.getString(USER, null) == null) {
+            return new UserModel("", "");
+        } else {
+            return gson.fromJson(sharedPreferences.getString(USER, null), UserModel.class);
+        }
+    }
+
+    @Override
+    public void saveLoggedUser(UserModel userModel) {
+            sharedPreferences.edit().putString(USER,gson.toJson(userModel)).apply();
+    }
 }

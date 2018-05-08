@@ -2,20 +2,15 @@ package com.yunusseker.mvvmarchitecture.ui.main;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
+import android.provider.ContactsContract;
 
 import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
-import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
+import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -27,15 +22,15 @@ public class MainViewModel extends BaseViewModel {
     private final MutableLiveData<Throwable> error = new MutableLiveData<>();
 
     @Inject
-    public MainViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
-        super(remoteDataSource, localDataSource);
+    public MainViewModel(DataSource dataRepository) {
+        super(dataRepository);
     }
 
 
     LiveData<PostResponse> getLiveData() {
         final MutableLiveData<PostResponse> livedata = new MutableLiveData<>();
 
-        getCompositeDisposable().add(getRemoteDataSource().getPostModel()
+        getCompositeDisposable().add(getDataRepository().getPostModel()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(livedata::setValue, error::setValue)

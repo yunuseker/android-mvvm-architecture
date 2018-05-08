@@ -2,10 +2,7 @@ package com.yunusseker.mvvmarchitecture.base;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
-
-import javax.inject.Inject;
+import com.yunusseker.mvvmarchitecture.data.DataSource;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -15,21 +12,15 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class BaseViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable ;
-    private RemoteDataSource remoteDataSource;
-    private LocalDataSource localDataSource;
+    private DataSource dataRepository;
 
-    public BaseViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
-        this.remoteDataSource = remoteDataSource;
-        this.localDataSource = localDataSource;
+    public BaseViewModel(DataSource dataRepository) {
+        this.dataRepository=dataRepository;
         compositeDisposable=new CompositeDisposable();
     }
 
-    protected RemoteDataSource getRemoteDataSource() {
-        return remoteDataSource;
-    }
-
-    protected LocalDataSource getLocalDataSource() {
-        return localDataSource;
+    protected DataSource getDataRepository() {
+        return dataRepository;
     }
 
     protected CompositeDisposable getCompositeDisposable() {

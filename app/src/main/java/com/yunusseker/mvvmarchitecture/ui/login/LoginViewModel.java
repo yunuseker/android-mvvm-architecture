@@ -2,20 +2,14 @@ package com.yunusseker.mvvmarchitecture.ui.login;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.util.Log;
 
 import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
+import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
-import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -27,14 +21,14 @@ public class LoginViewModel extends BaseViewModel {
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(RemoteDataSource remoteDataSource, LocalDataSource localDataSource) {
-        super(remoteDataSource, localDataSource);
+    public LoginViewModel(DataSource dataRepository) {
+        super(dataRepository);
     }
 
     public LiveData<LoginResponse> login(String username, String password) {
         final MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
 
-        getCompositeDisposable().add(getRemoteDataSource().login(username, password)
+        getCompositeDisposable().add(getDataRepository().login(username, password)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(loginResponse -> {

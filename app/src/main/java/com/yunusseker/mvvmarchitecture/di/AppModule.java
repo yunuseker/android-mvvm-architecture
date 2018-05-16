@@ -12,7 +12,10 @@ import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
 import com.yunusseker.mvvmarchitecture.data.remote.Api;
 import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
-import com.yunusseker.mvvmarchitecture.utils.ErrorUtil;
+import com.yunusseker.mvvmarchitecture.util.Constants;
+import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
+import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
+import com.yunusseker.mvvmarchitecture.util.schedulers.SchedulerProvider;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -43,25 +46,29 @@ public class AppModule {
     @Provides
     @Singleton
     @LocalSouce
-    DataSource localDataSource(SharedPreferences sharedPreferences,Gson gson) {
-        return new LocalDataSource(sharedPreferences,gson);
+    DataSource localDataSource(SharedPreferences sharedPreferences, Gson gson) {
+        return new LocalDataSource(sharedPreferences, gson);
     }
 
     @Provides
     @Singleton
     @RemoteSource
-    DataSource remoteDataSource(Api api){
+    DataSource remoteDataSource(Api api) {
         return new RemoteDataSource(api);
     }
 
 
     @Provides
     @Singleton
-    DataSource dataRepository(@LocalSouce DataSource localDataSource, @RemoteSource DataSource remoteDataSource){
-        return new DataRepository(localDataSource,remoteDataSource);
+    DataSource dataRepository(@LocalSouce DataSource localDataSource, @RemoteSource DataSource remoteDataSource) {
+        return new DataRepository(localDataSource, remoteDataSource);
     }
 
-
+    @Provides
+    @Singleton
+    BaseSchedulerProvider provideScheduler() {
+        return new SchedulerProvider();
+    }
 
     @Provides
     @Singleton
@@ -89,7 +96,7 @@ public class AppModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl("YOUR_BASE_URL")
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
@@ -106,19 +113,19 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Gson providesGson(){
+    Gson providesGson() {
         return new Gson();
     }
 
     @Provides
     @Singleton
-    SharedPreferences providesSharedPreferences(Context context){
-        return context.getSharedPreferences("com.yunusseker.mvvm",Context.MODE_PRIVATE);
+    SharedPreferences providesSharedPreferences(Context context) {
+        return context.getSharedPreferences("com.yunusseker.mvvm", Context.MODE_PRIVATE);
     }
 
     @Provides
     @Singleton
-    ErrorUtil provideErrorUtil(Retrofit retrofit){
+    ErrorUtil provideErrorUtil(Retrofit retrofit) {
         return new ErrorUtil(retrofit);
     }
 

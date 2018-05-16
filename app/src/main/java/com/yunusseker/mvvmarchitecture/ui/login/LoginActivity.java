@@ -1,25 +1,16 @@
 package com.yunusseker.mvvmarchitecture.ui.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.yunusseker.mvvmarchitecture.BR;
 import com.yunusseker.mvvmarchitecture.R;
 import com.yunusseker.mvvmarchitecture.base.BaseActivity;
-import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
 import com.yunusseker.mvvmarchitecture.databinding.ActLoginBinding;
 import com.yunusseker.mvvmarchitecture.ui.main.MainActivity;
-import com.yunusseker.mvvmarchitecture.ui.main.adapter.MainArticleRecyclerAdapter;
-import com.yunusseker.mvvmarchitecture.utils.ErrorUtil;
-import com.yunusseker.mvvmarchitecture.utils.ViewModelFactory;
+import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
 
 import javax.inject.Inject;
-
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by yunus.seker on 12.4.2018

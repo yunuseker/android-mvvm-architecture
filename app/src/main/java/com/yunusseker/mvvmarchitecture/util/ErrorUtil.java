@@ -1,4 +1,4 @@
-package com.yunusseker.mvvmarchitecture.utils;
+package com.yunusseker.mvvmarchitecture.util;
 
 import android.app.AlertDialog;
 import android.content.Context;

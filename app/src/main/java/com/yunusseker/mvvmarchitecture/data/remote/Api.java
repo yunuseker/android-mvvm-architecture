@@ -19,9 +19,11 @@ public interface Api {
     );
 
 
-    @POST("login")
+    @POST("5afc3e7a31000091007c5d8f")
     Single<LoginResponse> login(
             @Query("username") String username,
-            @Query("password") String password
+            @Query("password") String password,
+            @Query("api_key") String apiKey,
+            @Query("push_token") String pushToken
     );
 }

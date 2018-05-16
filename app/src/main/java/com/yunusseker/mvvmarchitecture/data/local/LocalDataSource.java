@@ -38,17 +38,13 @@ public class LocalDataSource implements DataSource {
     }
 
     @Override
-    public Single<LoginResponse> login(String username, String password) {
+    public Single<LoginResponse> login(String username, String password,String apiKey, String pushToken) {
         return null;
     }
 
     @Override
     public UserModel getLoggedUser() {
-        if (sharedPreferences.getString(USER, null) == null) {
-            return new UserModel("", "");
-        } else {
             return gson.fromJson(sharedPreferences.getString(USER, null), UserModel.class);
-        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
 import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
+import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Inject;
 
@@ -17,25 +18,25 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class LoginViewModel extends BaseViewModel {
-    private final MutableLiveData<Throwable> networkConnectError = new MutableLiveData<>();
-    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<Throwable> networkConnectError = new MutableLiveData<>();
+    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(DataSource dataRepository) {
-        super(dataRepository);
+    public LoginViewModel(DataSource dataRepository,BaseSchedulerProvider schedulerProvider) {
+        super(dataRepository,schedulerProvider);
     }
 
     public LiveData<LoginResponse> login(String username, String password) {
-        final MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
 
-        getCompositeDisposable().add(getDataRepository().login(username, password)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+        getCompositeDisposable().add(getDataRepository().login(username, password,"", "")
+                .observeOn(getSchedulerProvider().ui())
+                .subscribeOn(getSchedulerProvider().io())
                 .subscribe(loginResponse -> {
-                    if (loginResponse.isStatus()) {
+                    if (loginResponse.isSuccess()) {
                         loginMutableLiveData.setValue(loginResponse);
+                        getDataRepository().saveLoggedUser(loginResponse.getUserModel());
                     }else {
-                        //this message comes from api.
                         errorMessage.setValue(loginResponse.getErrorModel().getErrorMessage());
                     }
                 }, networkConnectError::setValue));

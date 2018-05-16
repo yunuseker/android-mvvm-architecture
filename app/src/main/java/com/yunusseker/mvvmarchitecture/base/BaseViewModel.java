@@ -3,6 +3,9 @@ package com.yunusseker.mvvmarchitecture.base;
 import android.arch.lifecycle.ViewModel;
 
 import com.yunusseker.mvvmarchitecture.data.DataSource;
+import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
+
+import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -13,9 +16,12 @@ import io.reactivex.disposables.CompositeDisposable;
 public abstract class BaseViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable ;
     private DataSource dataRepository;
+    private BaseSchedulerProvider schedulerProvider;
 
-    public BaseViewModel(DataSource dataRepository) {
+
+    public BaseViewModel(DataSource dataRepository,BaseSchedulerProvider schedulerProvider) {
         this.dataRepository=dataRepository;
+        this.schedulerProvider=schedulerProvider;
         compositeDisposable=new CompositeDisposable();
     }
 
@@ -25,6 +31,10 @@ public abstract class BaseViewModel extends ViewModel {
 
     protected CompositeDisposable getCompositeDisposable() {
         return compositeDisposable;
+    }
+
+    public BaseSchedulerProvider getSchedulerProvider() {
+        return schedulerProvider;
     }
 
     @Override

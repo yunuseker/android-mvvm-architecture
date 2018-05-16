@@ -38,10 +38,8 @@ public class RemoteDataSource implements DataSource {
 
 
     @Override
-    public Single<LoginResponse> login(String username, String password) {
-        //TODO get result from api
-        LoginResponse loginResponse=new LoginResponse(true,"Success",new ErrorModel("","Login Error"));
-        return Single.just(loginResponse);
+    public Single<LoginResponse> login(String username, String password,String apiKey, String pushToken) {
+        return api.login(username,username,apiKey,pushToken);
     }
 
     @Override

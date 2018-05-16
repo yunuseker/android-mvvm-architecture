@@ -10,7 +10,7 @@ public interface DataSource {
 
     Single<PostResponse> getPostModel();
 
-    Single<LoginResponse>login(String username, String password);
+    Single<LoginResponse>login(String username, String password,String apiKey, String pushToken);
 
     UserModel getLoggedUser();
 

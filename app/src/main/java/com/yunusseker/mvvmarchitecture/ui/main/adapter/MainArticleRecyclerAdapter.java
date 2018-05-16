@@ -20,8 +20,7 @@ import java.util.List;
 public class MainArticleRecyclerAdapter extends BaseAdapter<PostModel> {
     private OnClickItem onClickItem;
 
-    public MainArticleRecyclerAdapter(List<PostModel> list, OnClickItem onClickItem) {
-        this.list = list;
+    public MainArticleRecyclerAdapter(OnClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
 

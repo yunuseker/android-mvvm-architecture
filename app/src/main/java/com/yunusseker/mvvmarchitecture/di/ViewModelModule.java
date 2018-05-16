@@ -3,7 +3,7 @@ package com.yunusseker.mvvmarchitecture.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.yunusseker.mvvmarchitecture.utils.ViewModelFactory;
+import com.yunusseker.mvvmarchitecture.util.ViewModelFactory;
 import com.yunusseker.mvvmarchitecture.ui.login.LoginViewModel;
 import com.yunusseker.mvvmarchitecture.ui.main.MainViewModel;
 

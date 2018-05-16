@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
 import com.yunusseker.mvvmarchitecture.data.DataSource;
 import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
+import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Inject;
 
@@ -19,20 +20,20 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends BaseViewModel {
 
-    private final MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private MutableLiveData<Throwable> error = new MutableLiveData<>();
+    private MutableLiveData<PostResponse> livedata = new MutableLiveData<>();
 
     @Inject
-    public MainViewModel(DataSource dataRepository) {
-        super(dataRepository);
+    public MainViewModel(DataSource dataRepository, BaseSchedulerProvider schedulerProvider) {
+        super(dataRepository, schedulerProvider);
     }
 
 
-    LiveData<PostResponse> getLiveData() {
-        final MutableLiveData<PostResponse> livedata = new MutableLiveData<>();
+    public LiveData<PostResponse> getLiveData() {
 
         getCompositeDisposable().add(getDataRepository().getPostModel()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribeOn(getSchedulerProvider().io())
                 .subscribe(livedata::setValue, error::setValue)
         );
 

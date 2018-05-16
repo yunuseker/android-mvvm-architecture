@@ -26,8 +26,8 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<LoginResponse> login(String username, String password) {
-        return remoteDataSource.login(username,password);
+    public Single<LoginResponse> login(String username, String password,String apiKey, String pushToken) {
+        return remoteDataSource.login(username,password,apiKey,pushToken);
     }
 
     @Override
@@ -36,7 +36,8 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public void saveLoggedUser(UserModel userModel) {
+    public void saveLoggedUser(UserModel userModel)
+    {
        localDataSouce.saveLoggedUser(userModel);
     }
 }

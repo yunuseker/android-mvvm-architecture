@@ -23,7 +23,6 @@ public interface Api {
     Single<LoginResponse> login(
             @Query("username") String username,
             @Query("password") String password,
-            @Query("api_key") String apiKey,
-            @Query("push_token") String pushToken
+            @Query("api_key") String apiKey
     );
 }

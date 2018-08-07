@@ -7,11 +7,10 @@ import android.os.Build;
 
 import com.google.gson.Gson;
 import com.yunusseker.mvvmarchitecture.BuildConfig;
-import com.yunusseker.mvvmarchitecture.data.DataRepository;
-import com.yunusseker.mvvmarchitecture.data.DataSource;
-import com.yunusseker.mvvmarchitecture.data.local.LocalDataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.post.PostRepository;
+import com.yunusseker.mvvmarchitecture.data.repository.post.PostDataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.post.PostLocalDataSource;
 import com.yunusseker.mvvmarchitecture.data.remote.Api;
-import com.yunusseker.mvvmarchitecture.data.remote.RemoteDataSource;
 import com.yunusseker.mvvmarchitecture.util.Constants;
 import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
 import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
@@ -46,22 +45,22 @@ public class AppModule {
     @Provides
     @Singleton
     @LocalSouce
-    DataSource localDataSource(SharedPreferences sharedPreferences, Gson gson) {
-        return new LocalDataSource(sharedPreferences, gson);
+    PostDataSource localDataSource(SharedPreferences sharedPreferences, Gson gson) {
+        return new PostLocalDataSource(sharedPreferences, gson);
     }
 
     @Provides
     @Singleton
     @RemoteSource
-    DataSource remoteDataSource(Api api) {
+    PostDataSource remoteDataSource(Api api) {
         return new RemoteDataSource(api);
     }
 
 
     @Provides
     @Singleton
-    DataSource dataRepository(@LocalSouce DataSource localDataSource, @RemoteSource DataSource remoteDataSource) {
-        return new DataRepository(localDataSource, remoteDataSource);
+    PostDataSource dataRepository(@LocalSouce PostDataSource localDataSource, @RemoteSource PostDataSource remoteDataSource) {
+        return new PostRepository(localDataSource, remoteDataSource);
     }
 
     @Provides

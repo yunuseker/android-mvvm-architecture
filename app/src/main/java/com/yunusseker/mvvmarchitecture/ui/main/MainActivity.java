@@ -15,9 +15,6 @@ import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {
 
-    @Inject
-    ErrorUtil errorUtil;
-
     @Override
     public int getLayoutRes() {
         return R.layout.activity_main;
@@ -35,7 +32,6 @@ public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding
 
         viewModel.getLiveData().observe(this, postResponse -> adapter.setData(postResponse.getPosts()));
 
-        viewModel.getError().observe(this,throwable -> errorUtil.openErrorToast(throwable,MainActivity.this,true));
 
     }
 

@@ -4,14 +4,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.yunusseker.mvvmarchitecture.base.BaseViewModel;
-import com.yunusseker.mvvmarchitecture.data.DataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.post.PostDataSource;
 import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
 import com.yunusseker.mvvmarchitecture.util.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yunus.seker on 12.4.2018
@@ -23,8 +20,8 @@ public class LoginViewModel extends BaseViewModel {
     private MutableLiveData<LoginResponse> loginMutableLiveData = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(DataSource dataRepository,BaseSchedulerProvider schedulerProvider) {
-        super(dataRepository,schedulerProvider);
+    public LoginViewModel(BaseSchedulerProvider schedulerProvider) {
+        super(chedulerProvider);
     }
 
     public LiveData<LoginResponse> login(String username, String password) {

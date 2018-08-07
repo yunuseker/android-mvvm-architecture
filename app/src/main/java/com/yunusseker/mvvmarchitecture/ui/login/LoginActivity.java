@@ -18,9 +18,6 @@ import javax.inject.Inject;
 
 public class LoginActivity extends BaseActivity<LoginViewModel,ActLoginBinding> {
 
-    @Inject
-    ErrorUtil errorUtil;
-
     @Override
     public int getLayoutRes() {
         return R.layout.act_login;
@@ -36,8 +33,6 @@ public class LoginActivity extends BaseActivity<LoginViewModel,ActLoginBinding> 
         dataBinding.button.setOnClickListener(v -> {
             viewModel.login("","").observe(this,loginResponse -> startActivityWithoutBackstack(MainActivity.class));
         });
-
-        viewModel.getNetworkConnectError().observe(this,throwable -> errorUtil.openErrorToast(throwable,LoginActivity.this,true));
 
         viewModel.getErrorMessage().observe(this,s -> Toast.makeText(this,s,Toast.LENGTH_LONG).show());
     }

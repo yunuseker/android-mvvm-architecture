@@ -1,12 +1,10 @@
 package com.yunusseker.mvvmarchitecture.data.repository.post;
 
-import com.yunusseker.mvvmarchitecture.data.model.LoginResponse;
 import com.yunusseker.mvvmarchitecture.data.model.PostResponse;
-import com.yunusseker.mvvmarchitecture.data.model.UserModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
+import io.reactivex.Observable;
 
 public class PostRepository implements PostDataSource {
 
@@ -20,23 +18,9 @@ public class PostRepository implements PostDataSource {
     }
 
     @Override
-    public Single<PostResponse> getPostModel() {
-        return remoteDataSource.getPostModel();
-    }
-
-    @Override
-    public Single<LoginResponse> login(String username, String password,String apiKey, String pushToken) {
-        return remoteDataSource.login(username,password,apiKey,pushToken);
-    }
-
-    @Override
-    public UserModel getLoggedUser() {
-        return localDataSouce.getLoggedUser();
-    }
-
-    @Override
-    public void saveLoggedUser(UserModel userModel)
-    {
-       localDataSouce.saveLoggedUser(userModel);
+    public Observable<PostResponse> getPostModel() {
+        return Observable.concat(
+                localDataSouce.getPostModel(),
+                remoteDataSource.getPostModel());
     }
 }

@@ -11,6 +11,8 @@ import com.yunusseker.mvvmarchitecture.databinding.ActivityMainBinding;
 import com.yunusseker.mvvmarchitecture.ui.main.adapter.MainArticleRecyclerAdapter;
 import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
 
+import java.util.Stack;
+
 import javax.inject.Inject;
 
 public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {

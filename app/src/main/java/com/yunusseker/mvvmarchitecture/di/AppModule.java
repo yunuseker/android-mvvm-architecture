@@ -44,88 +44,9 @@ public class AppModule {
 
     @Provides
     @Singleton
-    @LocalSouce
-    PostDataSource localDataSource(SharedPreferences sharedPreferences, Gson gson) {
-        return new PostLocalDataSource(sharedPreferences, gson);
-    }
-
-    @Provides
-    @Singleton
-    @RemoteSource
-    PostDataSource remoteDataSource(Api api) {
-        return new RemoteDataSource(api);
-    }
-
-
-    @Provides
-    @Singleton
-    PostDataSource dataRepository(@LocalSouce PostDataSource localDataSource, @RemoteSource PostDataSource remoteDataSource) {
-        return new PostRepository(localDataSource, remoteDataSource);
-    }
-
-    @Provides
-    @Singleton
     BaseSchedulerProvider provideScheduler() {
         return new SchedulerProvider();
     }
 
-    @Provides
-    @Singleton
-    OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .addInterceptor(chain -> {
-                    Request original = chain.request();
-                    Request request = original.newBuilder()
-                            .header("Content-Type", "application/json")
-                            .header("Device-Type", "Android")
-                            .header("Device-Model", Build.MODEL)
-                            .header("Device-Version", String.valueOf(Build.VERSION.SDK_INT))
-                            .header("Lang", Locale.getDefault().getLanguage())
-                            .header("App-Version", BuildConfig.VERSION_NAME)
-                            .method(original.method(), original.body())
-                            .build();
-                    return chain.proceed(request);
-                })
-                .build();
-    }
-
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-
-    }
-
-    @Provides
-    @Singleton
-    Api provideApi(Retrofit retrofit) {
-        return retrofit.create(Api.class);
-    }
-
-    @Provides
-    @Singleton
-    Gson providesGson() {
-        return new Gson();
-    }
-
-    @Provides
-    @Singleton
-    SharedPreferences providesSharedPreferences(Context context) {
-        return context.getSharedPreferences("com.yunusseker.mvvm", Context.MODE_PRIVATE);
-    }
-
-    @Provides
-    @Singleton
-    ErrorUtil provideErrorUtil(Retrofit retrofit) {
-        return new ErrorUtil(retrofit);
-    }
 
 }

@@ -3,29 +3,28 @@ package com.yunusseker.mvvmarchitecture.data.repository.user;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.yunusseker.mvvmarchitecture.base.BaseLocalRepository;
+import com.yunusseker.mvvmarchitecture.data.database.AppDatabase;
 import com.yunusseker.mvvmarchitecture.data.model.UserModel;
 
 import javax.inject.Inject;
 
-public class UserLocalDataSource implements UserDataSource {
+public class UserLocalDataSource extends BaseLocalRepository implements UserDataSource {
 
     private static final String USER = "user";
-    private SharedPreferences sharedPreferences;
-    private Gson gson;
 
     @Inject
-    public UserLocalDataSource(SharedPreferences sharedPreferences, Gson gson) {
-        this.sharedPreferences=sharedPreferences;
-        this.gson =gson;
+    public UserLocalDataSource(SharedPreferences sharedPreferences, Gson gson, AppDatabase appDatabase) {
+        super(sharedPreferences,gson,appDatabase);
     }
 
     @Override
     public UserModel getLoggedUser() {
-        return gson.fromJson(sharedPreferences.getString(USER, null), UserModel.class);
+        return getGson().fromJson(getSharedPreferences().getString(USER, null), UserModel.class);
     }
 
     @Override
     public void saveLoggedUser(UserModel userModel) {
-        sharedPreferences.edit().putString(USER,gson.toJson(userModel)).apply();
+        getSharedPreferences().edit().putString(USER,getGson().toJson(userModel)).apply();
     }
 }

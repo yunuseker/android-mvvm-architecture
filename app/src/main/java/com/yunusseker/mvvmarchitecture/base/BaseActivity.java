@@ -27,7 +27,7 @@ import dagger.android.support.HasSupportFragmentInjector;
  * Created by yunus.seker on 12.4.2018
  */
 
-public abstract class BaseActivity<VM extends ViewModel,DB extends ViewDataBinding> extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleOwner {
+public abstract class BaseActivity<VM extends ViewModel,DB extends ViewDataBinding> extends AppCompatActivity implements HasSupportFragmentInjector {
 
    private LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
@@ -59,10 +59,6 @@ public abstract class BaseActivity<VM extends ViewModel,DB extends ViewDataBindi
         return fragmentAndroidInjector;
     }
 
-    @Override
-    public Lifecycle getLifecycle() {
-        return lifecycleRegistry;
-    }
 
     public void startActivityWithoutBackstack(Class activityClass){
         Intent i = new Intent(this, activityClass);

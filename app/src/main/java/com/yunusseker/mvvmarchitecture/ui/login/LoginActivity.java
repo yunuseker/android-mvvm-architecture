@@ -8,15 +8,12 @@ import com.yunusseker.mvvmarchitecture.R;
 import com.yunusseker.mvvmarchitecture.base.BaseActivity;
 import com.yunusseker.mvvmarchitecture.databinding.ActLoginBinding;
 import com.yunusseker.mvvmarchitecture.ui.main.MainActivity;
-import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
-
-import javax.inject.Inject;
 
 /**
  * Created by yunus.seker on 12.4.2018
  */
 
-public class LoginActivity extends BaseActivity<LoginViewModel,ActLoginBinding> {
+public class LoginActivity extends BaseActivity<VMLoginActivity,ActLoginBinding> {
 
     @Override
     public int getLayoutRes() {
@@ -24,7 +21,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel,ActLoginBinding> 
     }
 
     @Override
-    public Class<LoginViewModel> getViewModel() {return LoginViewModel.class;}
+    public Class<VMLoginActivity> getViewModel() {return VMLoginActivity.class;}
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

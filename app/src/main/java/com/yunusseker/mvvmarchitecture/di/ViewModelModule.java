@@ -3,8 +3,8 @@ package com.yunusseker.mvvmarchitecture.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.yunusseker.mvvmarchitecture.ui.login.VMLoginActivity;
 import com.yunusseker.mvvmarchitecture.util.ViewModelFactory;
-import com.yunusseker.mvvmarchitecture.ui.login.LoginViewModel;
 import com.yunusseker.mvvmarchitecture.ui.main.MainViewModel;
 
 import dagger.Binds;
@@ -26,8 +26,8 @@ public abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel.class)
-    abstract  ViewModel bindsMovieDetailViewModel(LoginViewModel loginViewModel);
+    @ViewModelKey(VMLoginActivity.class)
+    abstract  ViewModel bindsMovieDetailViewModel(VMLoginActivity loginViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindsViewModelFactory(ViewModelFactory viewModelFactory);

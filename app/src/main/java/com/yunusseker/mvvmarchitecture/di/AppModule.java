@@ -48,5 +48,4 @@ public class AppModule {
         return new SchedulerProvider();
     }
 
-
 }

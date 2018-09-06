@@ -30,27 +30,6 @@ public class ErrorUtil {
     }
 
 
-    public void openErrorDialog(Throwable error, Context context, boolean isFragmentAdded) {
-        if (context != null  && isFragmentAdded) {
-            Throwable handleError = handleError(error, context);
-
-            new AlertDialog.Builder(context)
-                    .setMessage(handleError.getMessage())
-                    .setCancelable(true)
-                    .setNegativeButton("Error", (dialog, id) -> dialog.dismiss())
-                    .create()
-                    .show();
-        }
-    }
-
-
-    public void openErrorToast(Throwable error, Context context, boolean isFragmentAdded) {
-        if (context != null && isFragmentAdded) {
-            Throwable handleError = handleError(error, context);
-            Toast.makeText(context, handleError.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
     //TODO add localization with context end improve first case
     private Throwable handleError(Throwable error, Context context) {
         if (error instanceof HttpException) {

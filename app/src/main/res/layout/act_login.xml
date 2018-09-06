@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable
             name="vmLogin"
-            type="com.yunusseker.mvvmarchitecture.ui.login.LoginViewModel"/>
+            type="com.yunusseker.mvvmarchitecture.ui.login.VMLoginActivity"/>
 
     </data>
 

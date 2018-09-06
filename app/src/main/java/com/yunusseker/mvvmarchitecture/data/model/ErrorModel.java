@@ -18,6 +18,10 @@ public class ErrorModel {
         this.errorMessage = errorMessage;
     }
 
+    public ErrorModel(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
     public String getErrorCode() {
         return errorCode;
     }

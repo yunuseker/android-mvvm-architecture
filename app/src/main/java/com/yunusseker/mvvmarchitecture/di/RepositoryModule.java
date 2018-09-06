@@ -3,6 +3,7 @@ package com.yunusseker.mvvmarchitecture.di;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.yunusseker.mvvmarchitecture.data.database.AppDatabase;
 import com.yunusseker.mvvmarchitecture.data.defination.DaggerNamedType;
 import com.yunusseker.mvvmarchitecture.data.remote.Api;
 import com.yunusseker.mvvmarchitecture.data.repository.post.PostDataSource;
@@ -22,8 +23,8 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Named(DaggerNamedType.POST_LOCAL)
-    PostDataSource provPostLocalData(SharedPreferences sharedPreferences, Gson gson) {
-        return new PostLocalDataSource(sharedPreferences, gson);
+    PostDataSource provPostLocalData(SharedPreferences sharedPreferences, Gson gson, AppDatabase appDatabase) {
+        return new PostLocalDataSource(sharedPreferences, gson,appDatabase);
     }
 
     @Provides

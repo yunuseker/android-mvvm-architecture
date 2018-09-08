@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="data"
-            type="com.yunusseker.mvvmarchitecture.data.model.PostModel"/>
+            type="com.yunusseker.mvvmarchitecture.data.model.UserModel"/>
         <variable
             name="clicklistener"
             type="com.yunusseker.mvvmarchitecture.base.ItemClickListener"/>
@@ -18,7 +18,7 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{()-> clicklistener.onItemClick(0,0,data)}"
+        android:onClick="@{()-> clicklistener.onItemClick(1,1,data)}"
         android:layout_margin="5dp">
 
         <android.support.constraint.ConstraintLayout
@@ -44,9 +44,11 @@
                 android:layout_margin="7dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="@{data.title}"
+                android:text="@{data.name}"
                 app:layout_constraintTop_toBottomOf="@+id/row_main_img_bg"
                 tools:text="Title" />
+
+
 
         </android.support.constraint.ConstraintLayout>
 

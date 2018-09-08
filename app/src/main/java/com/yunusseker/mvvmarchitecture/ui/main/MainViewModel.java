@@ -27,11 +27,11 @@ public class MainViewModel extends BaseViewModel {
 
     public LiveData<PostResponse> getLiveData() {
 
-        getCompositeDisposable().add(getDataRepository().getPostModel()
-                .observeOn(getSchedulerProvider().ui())
-                .subscribeOn(getSchedulerProvider().io())
-                .subscribe(livedata::setValue, error::setValue)
-        );
+//        getCompositeDisposable().add(getDataRepository().getPostModel()
+//                .observeOn(getSchedulerProvider().ui())
+//                .subscribeOn(getSchedulerProvider().io())
+//                .subscribe(livedata::setValue, error::setValue)
+//        );
 
         return livedata;
     }

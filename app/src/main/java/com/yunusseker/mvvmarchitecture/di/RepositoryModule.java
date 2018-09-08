@@ -10,6 +10,10 @@ import com.yunusseker.mvvmarchitecture.data.repository.post.PostDataSource;
 import com.yunusseker.mvvmarchitecture.data.repository.post.PostLocalDataSource;
 import com.yunusseker.mvvmarchitecture.data.repository.post.PostRemoteDataSource;
 import com.yunusseker.mvvmarchitecture.data.repository.post.PostRepository;
+import com.yunusseker.mvvmarchitecture.data.repository.user.UserDataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.user.UserLocalDataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.user.UserRemoteDataSource;
+import com.yunusseker.mvvmarchitecture.data.repository.user.UserRepository;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -23,14 +27,14 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Named(DaggerNamedType.POST_LOCAL)
-    PostDataSource provPostLocalData(SharedPreferences sharedPreferences, Gson gson, AppDatabase appDatabase) {
+    public PostDataSource provPostLocalData(SharedPreferences sharedPreferences, Gson gson, AppDatabase appDatabase) {
         return new PostLocalDataSource(sharedPreferences, gson,appDatabase);
     }
 
     @Provides
     @Singleton
     @Named(DaggerNamedType.POST_REMOTE)
-    PostDataSource provPostRemoteData(Api api) {
+    public PostDataSource provPostRemoteData(Api api) {
         return new PostRemoteDataSource(api);
     }
 
@@ -38,9 +42,32 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Named(DaggerNamedType.POST_REPOSITORY)
-    PostDataSource provPostRepository(@Named(DaggerNamedType.POST_LOCAL) PostDataSource localDataSource,
+    public PostDataSource provPostRepository(@Named(DaggerNamedType.POST_LOCAL) PostDataSource localDataSource,
                                       @Named(DaggerNamedType.POST_REMOTE) PostDataSource remoteDataSource) {
         return new PostRepository(localDataSource, remoteDataSource);
+    }
+
+    @Provides
+    @Singleton
+    @Named(DaggerNamedType.USER_LOCAL)
+    public UserDataSource provUserLocalData(SharedPreferences sharedPreferences, Gson gson, AppDatabase appDatabase) {
+        return new UserLocalDataSource(sharedPreferences, gson,appDatabase);
+    }
+
+    @Provides
+    @Singleton
+    @Named(DaggerNamedType.USER_REMOTE)
+    public UserDataSource provUserRemoteData(Api api) {
+        return new UserRemoteDataSource(api);
+    }
+
+
+    @Provides
+    @Singleton
+    @Named(DaggerNamedType.USER_REPOSITORY)
+    public UserDataSource provUserRepository(@Named(DaggerNamedType.USER_LOCAL) UserDataSource localDataSource,
+                                      @Named(DaggerNamedType.USER_REMOTE) UserDataSource remoteDataSource) {
+        return new UserRepository(localDataSource, remoteDataSource);
     }
 
 }

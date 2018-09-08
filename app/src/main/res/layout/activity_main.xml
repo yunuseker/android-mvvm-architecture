@@ -8,7 +8,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.yunusseker.mvvmarchitecture.ui.main.MainViewModel" />
 
 

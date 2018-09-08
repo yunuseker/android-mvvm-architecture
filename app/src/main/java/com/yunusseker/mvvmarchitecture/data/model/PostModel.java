@@ -34,6 +34,10 @@ public class PostModel {
     @Expose
     private String media;
 
+    public PostModel(String title) {
+        this.title = title;
+    }
+
     public Integer getItemid() {
         return itemid;
     }

@@ -6,16 +6,17 @@ import android.widget.Toast;
 
 import com.yunusseker.mvvmarchitecture.R;
 import com.yunusseker.mvvmarchitecture.base.BaseActivity;
+import com.yunusseker.mvvmarchitecture.base.BaseRecyclerAdapter;
+import com.yunusseker.mvvmarchitecture.base.ItemClickListener;
 import com.yunusseker.mvvmarchitecture.data.model.PostModel;
+import com.yunusseker.mvvmarchitecture.data.model.UserModel;
 import com.yunusseker.mvvmarchitecture.databinding.ActivityMainBinding;
-import com.yunusseker.mvvmarchitecture.ui.main.adapter.MainArticleRecyclerAdapter;
-import com.yunusseker.mvvmarchitecture.util.ErrorUtil;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-import javax.inject.Inject;
-
-public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements MainArticleRecyclerAdapter.OnClickItem {
+public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements ItemClickListener {
 
     @Override
     public int getLayoutRes() {
@@ -28,18 +29,35 @@ public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainArticleRecyclerAdapter adapter=new MainArticleRecyclerAdapter(this);//TODO inject from mainActivityModule
-        dataBinding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO inject from mainActivityModule
-        dataBinding.recView.setAdapter(adapter);
+        UserModel user =new UserModel("yunus");
+        PostModel postModel =new PostModel("post");
 
-        viewModel.getLiveData().observe(this, postResponse -> adapter.setData(postResponse.getPosts()));
+        List<Object> list =new ArrayList<>();
+        list.add(user);
+        list.add(postModel);
+
+        HashMap<Class<?>,Integer> layoutIds =new HashMap<>();
+        layoutIds.put(UserModel.class,R.layout.row_user);
+        layoutIds.put(PostModel.class,R.layout.row_main);
+
+
+        BaseRecyclerAdapter baseAdapter =new BaseRecyclerAdapter(list,layoutIds,this);
+        dataBinding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO inject from mainActivityModule
+        dataBinding.recView.setAdapter(baseAdapter);
 
 
     }
+
 
     @Override
-    public void click(PostModel postModel) {
-        Toast.makeText(this, postModel.getCategory(), Toast.LENGTH_LONG).show();
-    }
+    public void onItemClick(int itemType, int compenentIndex, Object itemData) {
+        if (itemType==1){
 
+            Toast.makeText(this, ((UserModel)itemData).getName(), Toast.LENGTH_LONG).show();
+        }else if (itemType==0){
+            Toast.makeText(this, ((PostModel)itemData).getTitle(), Toast.LENGTH_LONG).show();
+
+        }
+
+    }
 }

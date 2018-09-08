@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase;
 
 import com.yunusseker.mvvmarchitecture.data.model.UserModel;
 
-@Database(entities = {UserModel.class}, version = 1)
+@Database(entities = {UserModel.class}, version = 1,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
 }

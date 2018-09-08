@@ -13,14 +13,14 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.yunusseker.mvvmarchitecture.ui.main.MainActivity">
-
-        </activity>
-        <activity android:name="com.yunusseker.mvvmarchitecture.ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.yunusseker.mvvmarchitecture.ui.login.LoginActivity">
+
         </activity>
     </application>
 

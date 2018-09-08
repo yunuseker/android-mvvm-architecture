@@ -17,7 +17,12 @@ import dagger.android.AndroidInjectionModule;
 @Singleton
 @Component(modules = {
         AppModule.class,
+        FragmentModule.class,
         AndroidInjectionModule.class,
+        ViewModelModule.class,
+        RepositoryModule.class,
+        DatabaseModule.class,
+        NetworkModule.class,
         ActivityModule.class})
 public interface AppComponent {
 

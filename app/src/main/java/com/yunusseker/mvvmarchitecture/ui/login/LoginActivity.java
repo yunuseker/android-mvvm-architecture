@@ -28,7 +28,7 @@ public class LoginActivity extends BaseActivity<VMLoginActivity,ActLoginBinding>
         super.onCreate(savedInstanceState);
 
         dataBinding.button.setOnClickListener(v -> {
-            viewModel.login("","").observe(this,loginResponse -> startActivityWithoutBackstack(MainActivity.class));
+//            viewModel.login("","").observe(this,loginResponse -> startActivityWithoutBackstack(MainActivity.class));
         });
 
         viewModel.getErrorMessage().observe(this,s -> Toast.makeText(this,s,Toast.LENGTH_LONG).show());

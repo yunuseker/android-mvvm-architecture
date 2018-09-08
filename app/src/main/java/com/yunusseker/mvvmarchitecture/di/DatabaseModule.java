@@ -13,17 +13,17 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module(includes = AppModule.class)
-class DatabaseModule {
+public class DatabaseModule {
 
     @Provides
     @Singleton
-    SharedPreferences providesSharedPreferences(Context context) {
+    public SharedPreferences providesSharedPreferences(Context context) {
         return context.getSharedPreferences("com.yunusseker.mvvm", Context.MODE_PRIVATE);
     }
 
     @Provides
     @Singleton
-    AppDatabase providesAppDatabase(Context context){
+    public AppDatabase providesAppDatabase(Context context){
         return Room.databaseBuilder(context,AppDatabase.class,"com.yunusseker.mvvm").build();
     }
 }

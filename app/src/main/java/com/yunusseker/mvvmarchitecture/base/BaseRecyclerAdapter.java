@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yunus.seker on 12.4.2018
@@ -18,9 +19,10 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ItemClickListener clickListener;
     private HashMap<Class<?>,Integer> layoutIds;
 
+
     public BaseRecyclerAdapter(List<Object> list, HashMap<Class<?>, Integer> layoutIds, ItemClickListener clickListener) {
         this.list = list;
-        this.layoutIds = layoutIds;
+        this.layoutIds=layoutIds;
         this.clickListener = clickListener;
     }
 
@@ -58,6 +60,13 @@ public class BaseRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void appendData(List<Object> data){
         list.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void setLayoutMap(Class<?> modelClazz,Integer layoutId ){
+        if (layoutIds == null) {
+            this.layoutIds=new HashMap<>();
+        }
+        this.layoutIds.put(modelClazz,layoutId);
     }
 
 }

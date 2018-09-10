@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding> implements ItemClickListener {
-
+    List<Object> list =new ArrayList<>();
     @Override
     public int getLayoutRes() {
         return R.layout.activity_main;
@@ -30,9 +30,9 @@ public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserModel user =new UserModel("yunus");
-        PostModel postModel =new PostModel("post");
+        PostModel postModel =new PostModel("example post");
 
-        List<Object> list =new ArrayList<>();
+
         list.add(user);
         list.add(postModel);
 
@@ -41,8 +41,11 @@ public class MainActivity extends BaseActivity<MainViewModel,ActivityMainBinding
         layoutIds.put(PostModel.class,R.layout.row_main);
 
 
-        BaseRecyclerAdapter baseAdapter =new BaseRecyclerAdapter(list,layoutIds,this);
+        BaseRecyclerAdapter baseAdapter =new BaseRecyclerAdapter(list,null,this);
         dataBinding.recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));//TODO inject from mainActivityModule
+        baseAdapter.setLayoutMap(UserModel.class,R.layout.row_user);
+        baseAdapter.setLayoutMap(PostModel.class,R.layout.row_main);
+
         dataBinding.recView.setAdapter(baseAdapter);
 
 

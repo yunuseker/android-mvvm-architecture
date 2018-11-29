@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mvvmarchitecture</string>
+
     <string name="name">String from local source</string>
     <string name="login_et_username">Username</string>
     <string name="login_et_password">Password</string>

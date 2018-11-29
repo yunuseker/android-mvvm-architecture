@@ -18,64 +18,74 @@ android {
         enabled true
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue("string", "app_name", "Mvvm Arc Test")
+            buildConfigField("String","BASE_URL","http://www.mocky.io/v2/")
+        }
+
+        liveTest {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue("string", "app_name", "Mvvm Arc Test")
+            buildConfigField("String","BASE_URL","http://www.mocky.io/v2/")
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            resValue("string", "app_name", "Mvvm Arc Test")
+            buildConfigField("String","BASE_URL","http://www.mocky.io/v2/")
         }
     }
-}
-ext {
-    daggerVersion = '2.14.1'
-    retrofitVersion = '2.3.0'
-    okHttpVersion = "3.9.1"
-    rxJavaVersion = "2.1.8"
-    rxAndroidVersion = "2.0.2"
-    supportLibraryVersion = "27.1.1"
-    archVersion = "1.1.1"
-    roomVersion = "1.1.1"
-    stetho= "1.5.0"
+
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //Dagger
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-
+    implementation "com.google.dagger:dagger-android:${rootProject.ext.daggerVersion}"
+    implementation "com.google.dagger:dagger-android-support:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
 
     //ViewModel
-    implementation "android.arch.lifecycle:extensions:$archVersion"
-    implementation "android.arch.lifecycle:runtime:$archVersion"
-    implementation "android.arch.lifecycle:livedata:$archVersion"
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.archVersion}"
+    implementation "android.arch.lifecycle:runtime:${rootProject.ext.archVersion}"
+    implementation "android.arch.lifecycle:livedata:${rootProject.ext.archVersion}"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 
     //Room
-    implementation "android.arch.persistence.room:runtime:$roomVersion"
-    implementation "android.arch.persistence.room:rxjava2:$roomVersion"
-    annotationProcessor "android.arch.persistence.room:compiler:$roomVersion"
+    implementation "android.arch.persistence.room:runtime:${rootProject.ext.roomVersion}"
+    implementation "android.arch.persistence.room:rxjava2:${rootProject.ext.roomVersion}"
+    annotationProcessor "android.arch.persistence.room:compiler:${rootProject.ext.roomVersion}"
 
     //Retrofit
-    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okHttpVersion}"
+    implementation "com.squareup.okhttp3:okhttp:${rootProject.ext.okHttpVersion}"
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${rootProject.ext.retrofitVersion}"
 
     //Support Lib.
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
-    implementation "com.android.support:support-v4:$supportLibraryVersion"
-    implementation "com.android.support:design:$supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$supportLibraryVersion"
-    implementation "com.android.support:support-vector-drawable:$supportLibraryVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:support-vector-drawable:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintVersion}"
 
     //RxAndroid
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:${rootProject.ext.rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rootProject.ext.rxAndroidVersion}"
 }
